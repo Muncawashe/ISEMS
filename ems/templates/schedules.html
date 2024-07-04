@@ -1,0 +1,18 @@
+{% extends 'staff_base.html' %} 
+{% block title %} 
+Schedules
+{% endblock %} 
+{% block content %}
+<div class="container">
+    <div class="container-fluid">
+        <h1>My Schedules</h1>
+        <hr>
+        <div class="card-grid">
+            {%for schedule in cschedule%}
+            <div class="card">
+                <h4>{{schedule.name}}<h4>
+            </div>
+            {% endfor %}
+        </div>
+</div>
+{% endblock %}

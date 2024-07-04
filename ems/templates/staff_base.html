@@ -172,7 +172,6 @@
 <body>
 
 <div class="sidenav">
-    <img src=".\image001.png">
     <h1 class="headi">Imaging Solutions</h1>
     {% if request.user.is_authenticated %}
     <h3 class="headi2">Welcome! {{ request.user.username }} <a href="{% url 'logout' %}">Logout</a></h3>
@@ -181,15 +180,9 @@
     <hr class="">
     <a href="/">Home</a>
     {% if request.user.is_authenticated %}
-    {% comment %} <a class="nav-menu" href="{% url 'add_company' %}" role="button">Register Company</a>
-    <a class="nav-menu" href="{% url 'add_emp' %}" role="button">Add an Employee</a>
-    <a class="nav-menu" href="{% url 'bulk_upload' %}" role="button">Bulk Add Employees</a>
-    <a class="nav-menu" href="{% url 'all_comp' %}" role="button">View & Update Companies</a>
-    <a class="nav-menu" href="{% url 'all_emp' %}" role="button">View & Update Employees</a>
-    <a class="nav-menu" href="{% url 'all_emp_prev' %}" role="button">Previous Employees</a>
-    <a class="nav-menu" href="{% url 'filter_emp' %}" role="button">Search Employees</a>
-    <a class="nav-menu" href="{% url 'remove_emp' %}" role="button">Remove an Employee</a>
-    <a class="nav-menu" href="{% url 'remove_comp' %}" role="button">Remove a Company</a> {% endcomment %}
+    <a class="nav-menu" href="{% url 'view_task' %}" role="button">Tasks</a>
+    <a class="nav-menu" href="{% url 'view_schedule' %}" role="button">Schedule</a>
+    <a class="nav-menu" href="{% url 'apply_leave' %}" role="button">Leave Application</a>
     {% else %}
     <a href="{% url 'login' %}">Login</a>
     {% endif %}

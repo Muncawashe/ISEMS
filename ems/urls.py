@@ -1,5 +1,6 @@
 from django.urls import path, include
 from . import views
+from schedule.views import CalendarView
 
 urlpatterns = [
 
@@ -17,5 +18,7 @@ urlpatterns = [
     path('create_event/<int:user_id>',views.create_event , name = 'create_event'),
 
     path('view_profile/<int:user_id>',views.view_profile , name = 'view_profile'),
-
+    path('view_task',views.view_task , name = 'view_task'),
+    path('view_schedule',views.view_schedule , name = 'view_schedule'),
+    path('apply_leave',views.apply_leave , name = 'apply_leave'),
 ]

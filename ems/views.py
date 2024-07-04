@@ -1,10 +1,12 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from .forms import LoginForm
 from django.contrib.auth import authenticate, login, logout
-from .models import Department, Role, Events, User
+from .models import Department, Role, Events, User, Session, Leave, Task
 from django.db.models import Q
 import csv
 from io import TextIOWrapper
+from datetime import datetime
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -82,7 +84,7 @@ def view_profile(request,user_id):
         if user_id:
             queryset = User.objects.get(id = user_id)
             # queryset2 = User.objects.all()
-            context = {"employees":queryset}
+            context = {"employee":queryset}
             return render(request, "emp_profile.html",context)
         
 def update_user(request,user_id):
@@ -185,7 +187,63 @@ def create_event(request, user_id):
         start = request.POST.get('start')
         end = request.POST.get('end')
 
-        Events.objects.create()
+        Events.objects.create(name = name, start = start, end = end)
         return HttpResponse("Schedule Event added successfully")  
     else:
         HttpResponse("invalid request")
+
+@login_required
+def calculate_hours_worked(request):
+    sessions = Session.objects.filter(user=request.user)
+
+    total_hours_worked = 0
+
+    for session in sessions:
+        login_time = session.login_time
+        logout_time = session.logout_time
+
+        duration = logout_time - login_time
+
+        hours_worked = duration.total_seconds() / 3600 
+
+        total_hours_worked += hours_worked
+
+    return render(request, 'emp_profile', {'total_hours_worked': total_hours_worked})
+
+def view_task(request):
+    queryset = Task.objects.filter( assigned_to_id = request.user )
+    context = {"tasks": queryset}
+    return render(request, "tasks.html", context)
+
+def view_schedule(request):
+    queryset = Events.objects.filter( assigned_to_id = request.user )
+    context = {"schedules": queryset}
+    return render(request, "schedules.html", context)
+
+def apply_leave(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
+    reason = request.POST.get('reason')
+
+    leave = Leave(user=user, start_date=start_date, end_date=end_date, reason=reason)
+    leave.save()
+
+    return render(request, 'leave_applied.html', {'leave': leave})
+
+def update_field_with_values(field_name, new_value):
+
+    instance = Model.objects.get(id=1) 
+
+    field_value = getattr(instance, field_name)
+
+    values_list = field_value.split(',')
+
+    values_list.append(new_value)
+
+    field_value = ','.join(values_list)
+
+    setattr(instance, field_name, field_value)
+
+    instance.save()

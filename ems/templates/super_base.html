@@ -123,7 +123,7 @@
         border-top: 1px solid #fff;
 
     }
-    .update-btn, .delete-btn, .view-btn {
+    .update-btn, .delete-btn, .view-btn, .vieww-btn {
         padding: 8px 12px;
         border: none;
         border-radius: 5px;
@@ -134,7 +134,11 @@
         color: #fff;
     }
     .view-btn {
-        background-color: #FCAFFF;
+        background-color: blue;
+        color: #fff;
+    }
+    .vieww-btn {
+        background-color: blue;
         color: #fff;
     }
     .delete-btn {
@@ -185,7 +189,6 @@
 <body>
 
 <div class="sidenav">
-    <img src=".\image001.png">
     <h1 class="headi">Imaging Solutions</h1>
     {% if request.user.is_authenticated %}
     <h3 class="headi2">Welcome! {{ request.user.username }} <a href="{% url 'logout' %}">Logout</a></h3>
@@ -198,14 +201,6 @@
     <a class="nav-menu" href="{% url 'all_user' %}" role="button">View & Update Employees</a>
     <a class="nav-menu" href="{% url 'bulk_upload' %}" role="button">Bulk Add Employees</a>
     <a class="nav-menu" href="{% url 'filter_user' %}" role="button">Search Employees</a>
-    {% comment %} </a>
-    
-    <a class="nav-menu" href="{% url 'all_comp' %}" role="button">View & Update Companies</a>
-    
-    <a class="nav-menu" href="{% url 'all_emp_prev' %}" role="button">Previous Employees</a>
-    
-    
-    <a class="nav-menu" href="{% url 'remove_comp' %}" role="button">Remove a Company</a> {% endcomment %}
     {% else %}
     <a href="{% url 'login' %}">Login</a>
     {% endif %}

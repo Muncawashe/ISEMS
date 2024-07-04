@@ -18,28 +18,29 @@ Employee Profile
         </thead>
         <tbody>
             <tr>
-                <td><h3>{{user.id}}</h3></td>
-                <td><h3>{{user.first_name}}</h3></td>
-                <td><h3>{{user.last_name}}</h3></td>
-                <td><h3>{{user.phone}}</h3></td>
-                <td><h3>{{user.dept.name}}</h3></td>
-                <td><h3>{{user.role.name}}</h3></td>
+                <td><h3>{{employee.id}}</h3></td>
+                <td><h3>{{employee.first_name}}</h3></td>
+                <td><h3>{{employee.last_name}}</h3></td>
+                <td><h3>{{employee.phone}}</h3></td>
+                <td><h3>{{employee.dept.name}}</h3></td>
+                <td><h3>{{employee.role.name}}</h3></td>
             </tr>
         </tbody>
     </table>
 </div>
 
 <div class="">
+    <h1>Total Hours Worked: {{ total_hours_worked }}</h1>
     <hr>
     <div class="card-gridlinks">
         <div class="cardlinks">
-            <p>{{ object.name }} <a href="{% url 'view_profile' user.id %}" class="view-btn">Perfomance</a></p>
+            <p>{{ object.name }} <a href="{% url 'view_profile' user.id %}" class="vieww-btn">Perfomance</a></p>
         </div>
         <div class="cardlinks">
-            <p>{{ object.name }} <a href="{% url 'create_event' user.id %}" class="view-btn">Schedules</a></p>
+            <p>{{ object.name }} <a href="{% url 'create_event' user.id %}" class="vieww-btn">Schedules</a></p>
         </div>
         <div class="cardlinks">
-            <p>{{ object.name }} <a href="{% url 'view_profile' user.id %}" class="view-btn">Leave</a></p>
+            <p>{{ object.name }} <a href="{% url 'index' %}" class="vieww-btn">Leave</a></p>
         </div>
     </div>
 </div>

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ems.apps.EmsConfig',
     'import_export',
+    'schedule',
 ]
 
 MIDDLEWARE = [
