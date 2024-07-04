@@ -21,4 +21,5 @@ urlpatterns = [
     path('view_task',views.view_task , name = 'view_task'),
     path('view_schedule',views.view_schedule , name = 'view_schedule'),
     path('apply_leave',views.apply_leave , name = 'apply_leave'),
+    path('messages',views.messages , name = 'messages'),
 ]

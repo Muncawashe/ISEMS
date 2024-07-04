@@ -215,22 +215,30 @@ def view_task(request):
     context = {"tasks": queryset}
     return render(request, "tasks.html", context)
 
+def messages(request):
+    # queryset = Task.objects.filter( assigned_to_id = request.user )
+    # context = {"tasks": queryset}
+    return render(request, "sms.html")
+
 def view_schedule(request):
     queryset = Events.objects.filter( assigned_to_id = request.user )
     context = {"schedules": queryset}
     return render(request, "schedules.html", context)
 
-def apply_leave(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+def apply_leave(request):
+    # user = get_object_or_404(User, id=user_id)
+    
+    if request.method == "POST":
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        reason = request.POST.get('reason')
 
-    start_date = request.POST.get('start_date')
-    end_date = request.POST.get('end_date')
-    reason = request.POST.get('reason')
+        leave = Leave(user=user, start_date=start_date, end_date=end_date, reason=reason)
+        leave.save()
 
-    leave = Leave(user=user, start_date=start_date, end_date=end_date, reason=reason)
-    leave.save()
-
-    return render(request, 'leave_applied.html', {'leave': leave})
+        return HttpResponse("Application Sucessful")
+    else:
+        return render(request, 'apply_leave.html')
 
 def update_field_with_values(field_name, new_value):
 

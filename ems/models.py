@@ -43,8 +43,8 @@ class Session(models.Model):
     
 class Leave(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start = models.DateField()
+    end = models.DateField()
     reason = models.TextField()
 
     def __str__(self):

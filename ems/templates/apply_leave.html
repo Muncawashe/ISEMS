@@ -1,0 +1,25 @@
+{% extends 'staff_base.html' %}
+{% block title %}
+Create Schedule event
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>Leave Application</h1>
+        <hr>
+        <form method="POST" class="form-group" action="/create_event">
+            {% csrf_token %}
+
+            <label for="start" >Start Date</label><br>
+            <input type="date" id="start" name="start" value="{{start}}">
+
+            <label for="end" >End Date</label><br>
+            <input type="date" id="end" name="end" value="{{end}}">
+
+            <label for="reason" >Reason</label><br>
+            <input type="text" id="reason" name="reason" value="{{reason}}" ><br>
+
+            <button type="submit">Submit</button> 
+        </form>
+    </div>
+{% endblock %}
