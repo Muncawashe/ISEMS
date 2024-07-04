@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style type="text/css">
+      /* The sidebar menu */
+    .sidenav {
+        height: 100%; /* Full-height: remove this if you want "auto" height */
+        width: 320px; /* Set the width of the sidebar */
+        position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+        z-index: 1; /* Stay on top */
+        top: 0; /* Stay at the top */
+        left: 0;
+        background-color: #111; /* Black */
+        overflow-x: hidden; /* Disable horizontal scroll */
+        padding-top: 20px;
+    }
+
+      /* The navigation menu links */
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 20px;
+        color: #818181;
+        display: block;
+    }
+
+    .headi{
+        padding: 0px 4px 0px 16px;
+        text-decoration: none;
+        font-size: 30px;
+        color: #fff;
+        display: block;
+    }
+    .headi2{
+        padding: 0px 0px 6px 16px;
+        text-decoration: none;
+        font-size: 20px;
+        color: #fff;
+        display: block;
+    }
+
+      /* When you mouse over the navigation links, change their color */
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+      /* Style page content */
+    .main {
+        margin-left: 320px; /* Same as the width of the sidebar */
+        padding: 0px 10px;
+    }
+    .form-group{
+        max-width: 500px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #333;
+        border: 1px sold #ddd;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    }
+    label{
+        color: #fff;
+        font-size: 18px;
+        
+        
+    }
+    button[type="submit"]{
+        background-color: #4CAF50;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button[type="submit"]:hover{
+        opacity: 0.8;
+    }
+    input[type="text"], input[type="email"], input[type="number"], input[type="password"], input[type="date"]{
+        width: 100%;
+        padding: 6px;
+        margin-bottom; 20px;
+        border: 1px solid #ddd;
+    }
+
+    input[type="file"] {
+        width: 70%;
+        border: 1px solid #ddd;
+        background-color: #F4C400;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    select {
+        width: 100%;
+        padding: 6px;
+        margin; 20px;
+        border: 1px solid #ddd;
+    }
+
+    input[type="text"]:focus, input[type="email"]:focus, input[type="number"],  input[type="date"]:focus{
+        border-color: #4CAF50;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table{
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    th, td {
+        background-color: #333;
+        color: #fff;
+        font-weight: bold;
+    }
+    td {
+        border-top: 1px solid #fff;
+
+    }
+    .update-btn, .delete-btn, .view-btn {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .update-btn {
+        background-color: #FCAF50;
+        color: #fff;
+    }
+    .view-btn {
+        background-color: #FCAFFF;
+        color: #fff;
+    }
+    .delete-btn {
+        background-color: #F44336;
+        color: #fff;
+    }
+    .update-btn:hover, .delete-btn:hover {
+        opacity: 0.8;
+    }
+    tbody tr:nth-child(even) {
+        background-color: #f0f0f0;
+    }
+    tbody tr:nth-child(odd) {
+        background-color: #fff;
+    }
+    .card-grid{
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+    }
+    .card{
+        background-color: #C0C0C5;
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        text-align: center;
+        margin: auto;
+    }
+
+    .card-gridlinks{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+    .cardlinks{
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        text-align: center;
+        margin: auto;
+    }
+
+    </style>
+
+    <title>{% block title %}Imaging Solutions{% endblock %}</title>
+</head>
+
+<body>
+
+<div class="sidenav">
+    <img src=".\image001.png">
+    <h1 class="headi">Imaging Solutions</h1>
+    {% if request.user.is_authenticated %}
+    <h3 class="headi2">Welcome! {{ request.user.username }} <a href="{% url 'logout' %}">Logout</a></h3>
+    
+    {% endif %}
+    <hr class="">
+    <a href="/">Home</a>
+    {% if request.user.is_authenticated %}
+    <a class="nav-menu" href="{% url 'add_user' %}" role="button">Add an Employee</a>
+    <a class="nav-menu" href="{% url 'all_user' %}" role="button">View & Update Employees</a>
+    <a class="nav-menu" href="{% url 'bulk_upload' %}" role="button">Bulk Add Employees</a>
+    <a class="nav-menu" href="{% url 'filter_user' %}" role="button">Search Employees</a>
+    {% comment %} </a>
+    
+    <a class="nav-menu" href="{% url 'all_comp' %}" role="button">View & Update Companies</a>
+    
+    <a class="nav-menu" href="{% url 'all_emp_prev' %}" role="button">Previous Employees</a>
+    
+    
+    <a class="nav-menu" href="{% url 'remove_comp' %}" role="button">Remove a Company</a> {% endcomment %}
+    {% else %}
+    <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+</div>
+
+<!-- Page content -->
+<div class="main">
+    <div class="">
+        <div class="">
+            <h2 class="">TINOTENDA CHIVHERA R223817U COMPUTER SCIENCE, UZ</h2>
+            <hr class="">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

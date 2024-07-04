@@ -1,0 +1,16 @@
+{% extends 'super_base.html' %}
+{% block title %}
+Add Employees
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>Bulk add Employees via csv</h1>
+        <hr>
+        <form method="POST" class="form-group" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="file">
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+{% endblock %}

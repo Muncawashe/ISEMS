@@ -1,0 +1,50 @@
+{% extends 'super_base.html' %}
+{% block title %}
+Records
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>All employeeloyees</h1>
+        <hr>
+
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Dept Name</th>
+                <th scope="col">Role</th>
+                <th scope="col">View Profile</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            {%for employee in employees%}
+            <tbody>
+                
+              <tr>
+                <td>{{employee.id}}</td>
+                <td>{{employee.first_name}}</td>
+                <td>{{employee.last_name}}</td>
+                <td>{{employee.phone}}</td>
+                <td>{{employee.dept.name}}</td>
+                <td>{{employee.role.name}}</td>
+                <td>
+                  <p>{{ object.name }} <a href="{% url 'view_profile' employee.id %}" class="view-btn">ViewProfile</a></p>
+              </td> 
+                <td>
+                    <p>{{ object.name }} <a href="{% url 'update_user' employee.id %}" class="update-btn">Update</a></p>
+                </td> 
+                <td>
+                  <p>{{ object.name }} <a href="{% url 'delete_user_id' employee.id %}" class="delete-btn">Delete</a></p>
+              </td>
+              </tr>
+              
+            </tbody>
+            {% endfor %}
+          </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'super_base.html' %}
+{% block title %}
+Employee Profile
+{% endblock %}
+
+{% block content %}
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col"><h3>ID</h3></th>
+                <th scope="col"><h3>First Name</h3></th>
+                <th scope="col"><h3>Last Name</h3></th>
+                <th scope="col"><h3>Phone</h3></th>
+                <th scope="col"><h3>Dept Name</h3></th>
+                <th scope="col"><h3>Role</h3></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><h3>{{user.id}}</h3></td>
+                <td><h3>{{user.first_name}}</h3></td>
+                <td><h3>{{user.last_name}}</h3></td>
+                <td><h3>{{user.phone}}</h3></td>
+                <td><h3>{{user.dept.name}}</h3></td>
+                <td><h3>{{user.role.name}}</h3></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="">
+    <hr>
+    <div class="card-gridlinks">
+        <div class="cardlinks">
+            <p>{{ object.name }} <a href="{% url 'view_profile' user.id %}" class="view-btn">Perfomance</a></p>
+        </div>
+        <div class="cardlinks">
+            <p>{{ object.name }} <a href="{% url 'create_event' user.id %}" class="view-btn">Schedules</a></p>
+        </div>
+        <div class="cardlinks">
+            <p>{{ object.name }} <a href="{% url 'view_profile' user.id %}" class="view-btn">Leave</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

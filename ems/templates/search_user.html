@@ -1,0 +1,25 @@
+{% extends 'super_base.html' %}
+{% block title %}
+Filter Employees
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>Filter Employee by Name, Employer, Role, Department</h1>
+        <hr>
+
+        <form action="/filter_user" class="form-group" method="post">
+            {% csrf_token %}
+            <label for="first_name" >First Name</label><br>
+            <input type="text" id="first-name" name="first_name" value="{{first_name}}" ><br>
+
+            <label for="Department" >Department</label><br>
+            <input type="text" id="emp-dept" name="emp_dept" value="{{emp_dept}}" ><br>
+
+            <label for="Role" >Role</label><br>
+            <input type="text" id="emp-role"  name="emp_role" value="{{emp_role}}"><br>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'super_base.html' %}
+{% block title %}
+Add New Employee
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+      <h1>Add an Employee</h1>
+      <hr>
+      <form action="/add_user" class="form-group" method="post">
+          {% csrf_token %}
+            <label for="first_name" >First Name</label><br>
+            <input type="text" id="first-name" name="first_name" value="{{first_name}}" ><br>
+
+            <label for="last_name" >Last Name</label><br>
+            <input type="text" id="last-name" name="last_name" value="{{last_name}}" ><br>
+
+            <label for="Phone" >Phone</label><br>
+            <input type="text" id="phone"  name="phone" value="{{phone}}"><br>
+
+            <label for="email" >Email</label><br>
+            <input type="email" id="email"  name="email" value="{{email}}"><br>
+
+            <label for="username" >Username</label><br>
+            <input type="text" id="username" name="username" value="{{username}}" ><br>
+
+            <label for="password" >Password</label><br>
+            <input type="password" id="password"  name="password" value="{{password}}"><br>
+
+            <select name="dept">
+              <option value="">Select Department</option>
+                {% for dept in depts %}
+                  <option value="{{dept.id}}">{{dept.name}}</option> 
+                {% endfor %} </select> <br>
+
+            <select name="role">
+              <option value="">Select Role</option>
+                {% for role in roles %}
+                  <option value="{{role.id}}">{{role.name}}</option> 
+                {% endfor %} </select> <br>
+
+            
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+  </div>
+{% endblock %}
