@@ -42,6 +42,9 @@ Employee Profile
         <div class="cardlinks">
             <p>{{ object.name }} <a href="{% url 'index' %}" class="vieww-btn">Leave</a></p>
         </div>
+        <div class="cardlinks">
+            {% comment %} <p>{{ object.name }} <a href="{% url 'send_sms' %}" class="vieww-btn">Send Message</a></p> {% endcomment %}
+        </div>
     </div>
 </div>
 {% endblock %}
