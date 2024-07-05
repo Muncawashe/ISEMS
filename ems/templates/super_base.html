@@ -201,6 +201,7 @@
     <a class="nav-menu" href="{% url 'all_user' %}" role="button">View & Update Employees</a>
     <a class="nav-menu" href="{% url 'bulk_upload' %}" role="button">Bulk Add Employees</a>
     <a class="nav-menu" href="{% url 'filter_user' %}" role="button">Search Employees</a>
+    <a class="nav-menu" href="{% url 'approve_leave' %}" role="button">Leave Applications</a>
     {% else %}
     <a href="{% url 'login' %}">Login</a>
     {% endif %}

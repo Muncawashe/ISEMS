@@ -1,0 +1,41 @@
+{% extends 'super_base.html' %}
+{% block title %}
+Leave Applications
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>Leave Applications</h1>
+        <hr>
+
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Employee Applied</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Reason</th>
+                <th scope="col">Status</th>
+                <th scope="col">Approve</th>
+                </tr>
+            </thead>
+            {%for application in applications%}
+            <tbody>
+                
+                <tr>
+                <td>{{application.id}}</td>
+                <td>{{application.user.first_name}}</td>
+                <td>{{application.start}}</td>
+                <td>{{application.end}}</td>
+                <td>{{application.reason}}</td>
+                <td>{{application.approved}}</td>
+                <td>
+                    <p>{{ object.name }} <a href="{% url 'approve_leave_id' application.id %}" class="view-btn">Approve</a></p>
+                </td> 
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

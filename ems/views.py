@@ -226,19 +226,57 @@ def view_schedule(request):
     return render(request, "schedules.html", context)
 
 def apply_leave(request):
-    # user = get_object_or_404(User, id=user_id)
+    if request.method == "GET":
+        return render(request, "apply_leave.html")
     
     if request.method == "POST":
-        start_date = request.POST.get('start_date')
-        end_date = request.POST.get('end_date')
+        user = User.objects.get(id = request.user.id)
+        start_date = request.POST.get('start')
+        end_date = request.POST.get('end')
         reason = request.POST.get('reason')
 
-        leave = Leave(user=user, start_date=start_date, end_date=end_date, reason=reason)
-        leave.save()
-
+        Leave.objects.create(user = user, start=start_date, end=end_date, reason=reason)
         return HttpResponse("Application Sucessful")
+    
     else:
-        return render(request, 'apply_leave.html')
+        HttpResponse("invalid request")
+
+def approve_leave(request):
+    queryset = Leave.objects.filter(approved = False)
+    context = {"applications": queryset}
+    if request.method == "GET":
+        return render(request, "leave_applications.html", context)
+
+def approve_leave_id(request, leave_id):
+    if leave_id:
+        leave_obj = Leave.objects.get(id=leave_id)
+        leave_obj.approved = True
+        leave_obj.save()
+        
+        queryset = Leave.objects.filter(approved = False)
+        context = {"applications": queryset}
+        return render(request, "leave_applications.html", context)
+    else:
+        return HttpResponse("please enter valid data")
+    
+def assign_task(request, user_id):
+    if user_id:
+            queryset = User.objects.get(id = user_id)
+            context = {"employee":queryset}
+            user = User.objects.get(id = user_id)
+            return render(request, "assign_task.html", context)
+    
+    if request.method == "POST":
+        name = request.POST['name']
+        start = request.POST.get('start')
+        end = request.POST.get('end')
+        description = request.POST.get('description')
+
+        Task.objects.create(title = name, start = start, end = end, description = description)
+        return HttpResponse("Schedule Event added successfully")  
+    else:
+        HttpResponse("invalid request")
+
 
 def update_field_with_values(field_name, new_value):
 

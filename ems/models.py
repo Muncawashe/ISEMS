@@ -47,6 +47,7 @@ class Leave(models.Model):
     start = models.DateField()
     end = models.DateField()
     reason = models.TextField()
+    approved = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Leave application for {self.user.username}"
@@ -54,6 +55,8 @@ class Leave(models.Model):
 class Task(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
+    start = models.DateField(null=True, blank=True)
+    end = models.DateField(null=True, blank=True)
     assigned_to = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

@@ -21,5 +21,8 @@ urlpatterns = [
     path('view_task',views.view_task , name = 'view_task'),
     path('view_schedule',views.view_schedule , name = 'view_schedule'),
     path('apply_leave',views.apply_leave , name = 'apply_leave'),
+    path('approve_leave',views.approve_leave , name = 'approve_leave'),
+    path('approve_leave_id/<int:leave_id>',views.approve_leave_id , name = 'approve_leave_id'),
+    path('assign_task/<int:user_id>',views.assign_task , name = 'assign_task'),
     path('messages',views.messages , name = 'messages'),
 ]
