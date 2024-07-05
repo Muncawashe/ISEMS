@@ -9,7 +9,7 @@ Create Schedule event
         <hr>
         <form method="POST" class="form-group" action="/create_event">
             {% csrf_token %}
-            <label for="name" >First Name</label><br>
+            <label for="name" >Name</label><br>
             <input type="text" id="name" name="name" value="{{name}}" ><br>
 
             <label for="start" >Start Date</label><br>
