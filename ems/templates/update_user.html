@@ -1,11 +1,11 @@
 {% extends 'super_base.html' %}
 {% block title %}
-Add New Employee
+Update Employee
 {% endblock %}
 
 {% block content %}
   <div class="container-fluid">
-      <h1>Add an Employee</h1>
+      <h1>Update Employee Details</h1>
       <hr>
       <form action="/add_user" class="form-group" method="post">
           {% csrf_token %}
@@ -23,6 +23,9 @@ Add New Employee
 
             <label for="username" >Username</label><br>
             <input type="text" id="username" name="username" value="{{username}}" ><br>
+
+            <label for="password" >Password</label><br>
+            <input type="password" id="password"  name="password" value="{{password}}"><br>
 
             <select name="dept">
               <option value="">Select Department</option>

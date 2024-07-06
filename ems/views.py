@@ -50,10 +50,10 @@ def add_user(request):
         f_name = request.POST['first_name']
         l_name = request.POST.get('last_name')
         email = request.POST.get('email')
-        dept = request.POST.get('dept')
-        role = request.POST.get('role')
+        dept_id = request.POST.get('dept')
+        role_id = request.POST.get('role')
         phone = request.POST.get('phone')
-        password = request.POST.get('password')
+        password = 'pbkdf2_sha256$720000$KNUjOJgUNmz6Ius3UCvmAm$XebtSHuVf7ZY8VtStREAzAFPDU/uJXUfYzI5aEAZUlU='
         username = request.POST.get('username')
 
         User.objects.create(first_name = f_name, last_name = l_name, phone = phone, email = email, password = password, username = username, is_staff = True)
@@ -89,33 +89,37 @@ def view_profile(request,user_id):
             return render(request, "emp_profile.html",context)
 
 def update_user(request,user_id):
-    queryset = Role.objects.all()
-    queryset1 = Department.objects.all()
-
     if request.method == "GET":
         if user_id:
-            queryset = User.objects.get(id = user_id)
+            queryset = Role.objects.all()
+            queryset1 = Department.objects.all()
             context = {"roles":queryset, "depts":queryset1}
             return render(request, "update_user.html",context)
 
     if request.method == "POST":
-        fname = request.POST.get("first_name")
-        lname = request.POST.get("last_name")
-        dept_id = request.POST.get("emp_dept")
-        role_id = request.POST.get("emp_role")
-        phone = request.POST.get("emp_phone")
+        f_name = request.POST['first_name']
+        l_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        dept = request.POST.get('dept')
+        role = request.POST.get('role')
+        phone = request.POST.get('phone')
+        password = 'pbkdf2_sha256$720000$KNUjOJgUNmz6Ius3UCvmAm$XebtSHuVf7ZY8VtStREAzAFPDU/uJXUfYzI5aEAZUlU='
+        username = request.POST.get('username')
         try:
-            emp_obj = User.objects.get(id=user_id)
-            emp_obj.first_name = fname
-            emp_obj.last_name = lname
-            emp_obj.dept.id = dept_id
-            emp_obj.role.id = role_id
-            emp_obj.phone = phone
-            emp_obj.dept.save()
-            emp_obj.save()
+            
+            update_user = User.objects.get(id=user_id)
+            update_user.first_name = f_name
+            update_user.last_name = l_name
+            update_user.dept.id = dept
+            update_user.role.id = role
+            update_user.phone = phone
+            update_user.email = email
+            update_user.username = username
+            update_user.password = password
+            update_user.save()
 
             queryset = User.objects.all()
-            context = {"emps":queryset}
+            context = {"employees":queryset}
             return render(request, "all_user.html", context)
         except:
             return HttpResponse("please enter valid data")
@@ -231,7 +235,7 @@ def approve_leave_id(request, leave_id):
         leave_obj.save()
 
         user_id =  leave_obj.user_id
-        user= User.objects.get(id=user_id)
+        user = User.objects.get(id=user_id)
         
         msg = "Leave Approved!"
         Message.objects.create(msg = msg, sent_to = user)
