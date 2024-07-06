@@ -7,11 +7,9 @@ Messages
     <div class="container-fluid">
         <h1>All Messages From HR</h1>
         <hr>
-        <div class="card-grid">
-            {%for task in tasks %}
+            {%for message in messages %}
             <div class="card">
-                <h4>{{ task.name}}<h4>
-            </div>
+                <h4>{{ message.msg}}<h4>
             {% endfor %}
         </div>
 </div>

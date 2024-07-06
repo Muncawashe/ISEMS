@@ -30,20 +30,12 @@ Employee Profile
 </div>
 
 <div class="">
-    <h1>Total Hours Worked: {{ total_hours_worked }}</h1>
-    <hr>
-    <div class="card-gridlinks">
+    <div class="">
         <div class="cardlinks">
-            <p>{{ object.name }} <a href="{% url 'view_profile' employee.id %}" class="vieww-btn">Perfomance</a></p>
+            <h2>Total Hours Worked: {{ total_hours_worked }}</h2>
         </div>
         <div class="cardlinks">
-            <p>{{ object.name }} <a href="{% url 'create_event' employee.id %}" class="vieww-btn">Schedules</a></p>
-        </div>
-        <div class="cardlinks">
-            <p>{{ object.name }} <a href="{% url 'assign_task' employee.id %}" class="vieww-btn">Assign Tasks</a></p>
-        </div>
-        <div class="cardlinks">
-            {% comment %} <p>{{ object.name }} <a href="{% url 'send_sms' %}" class="vieww-btn">Send Message</a></p> {% endcomment %}
+            <h2>Total Hours Worked: {{ total_hours_worked }}</h2>
         </div>
     </div>
 </div>

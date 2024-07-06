@@ -5,12 +5,12 @@ Schedules
 {% block content %}
 <div class="container">
     <div class="container-fluid">
-        <h1>My Schedules</h1>
+        <h1>Leave Schedule</h1>
         <hr>
-        <div class="card-grid">
-            {%for schedule in cschedule%}
+        <div class="">
+            {% for schedule in schedules %}
             <div class="card">
-                <h4>{{schedule.name}}<h4>
+                <h3>{{schedule.user.first_name}} {{schedule.user.last_name}} ---  Start: {{schedule.start}}   End: {{schedule.end}}<h3>
             </div>
             {% endfor %}
         </div>

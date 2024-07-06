@@ -9,14 +9,18 @@ Assign Task
         <hr>
         <form method="POST" class="form-group" action="/assign_task">
             {% csrf_token %}
+            <select name="user">
+                <option value="">Assign To</option>
+                    {% for user in users %}
+                <option value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option> 
+                    {% endfor %} 
+            </select> <br>
+
             <label for="name" >Title</label><br>
             <input type="text" id="name" name="name" value="{{name}}" ><br>
 
             <label for="description" >Description</label><br>
             <input type="text" id="description" name="description" value="{{description}}" ><br>
-
-            <label for="start" >Start Date</label><br>
-            <input type="date" id="start" name="start" value="{{start}}">
 
             <label for="end" >Due Date</label><br>
             <input type="date" id="end" name="end" value="{{end}}">

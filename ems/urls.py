@@ -15,7 +15,6 @@ urlpatterns = [
     path('delete_user_id/<int:user_id>',views.delete_user_id , name = 'delete_user_id'),
     path('bulk_upload',views.bulk_upload , name = 'bulk_upload'),
     path('filter_user',views.filter_user , name = 'filter_user'),
-    path('create_event/<int:user_id>',views.create_event , name = 'create_event'),
 
     path('view_profile/<int:user_id>',views.view_profile , name = 'view_profile'),
     path('view_task',views.view_task , name = 'view_task'),
@@ -23,6 +22,7 @@ urlpatterns = [
     path('apply_leave',views.apply_leave , name = 'apply_leave'),
     path('approve_leave',views.approve_leave , name = 'approve_leave'),
     path('approve_leave_id/<int:leave_id>',views.approve_leave_id , name = 'approve_leave_id'),
-    path('assign_task/<int:user_id>',views.assign_task , name = 'assign_task'),
+    path('assign_task_id/<int:user_id>',views.assign_task_id , name = 'assign_task_id'),
+    path('assign_task',views.assign_task , name = 'assign_task'),
     path('messages',views.messages , name = 'messages'),
 ]

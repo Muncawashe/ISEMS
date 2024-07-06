@@ -7,10 +7,22 @@ Tasks Assigned
     <div class="container-fluid">
         <h1>All Tasks Assigned</h1>
         <hr>
-        <div class="card-grid">
+        <div class="task-grid">
             {%for task in tasks %}
-            <div class="card">
-                <h4>{{ task.name}}<h4>
+            <div class="task-card">
+                <h2>{{ task.title}}<h2>
+                <h4>{{ task.description}}<h4>
+                <h3>Due: {{ task.end}}<h3>
+                
+                    <form method="POST" class="form-group" action="/task_status">
+                        {% csrf_token %}
+                        <select name="user">
+                            <option value="">Task Status</option>
+                            <option value="0">In Progress</option> 
+                            <option value="0">Completed</option> 
+                        </select> <br>
+                        <button type="submit">Submit</button> 
+                    </form>
             </div>
             {% endfor %}
         </div>
