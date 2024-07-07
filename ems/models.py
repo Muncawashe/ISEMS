@@ -45,6 +45,7 @@ class Task(models.Model):
     description = models.TextField()
     end = models.DateField(null=True, blank=True)
     assigned_to = models.ForeignKey(User, on_delete=models.CASCADE)
+    approved = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

@@ -25,4 +25,5 @@ urlpatterns = [
     path('assign_task_id/<int:user_id>',views.assign_task_id , name = 'assign_task_id'),
     path('assign_task',views.assign_task , name = 'assign_task'),
     path('messages',views.messages , name = 'messages'),
+    path('task_status/<int:task_id>',views.task_status , name = 'task_status'),
 ]

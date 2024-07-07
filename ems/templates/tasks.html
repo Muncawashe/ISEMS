@@ -14,12 +14,12 @@ Tasks Assigned
                 <h4>{{ task.description}}<h4>
                 <h3>Due: {{ task.end}}<h3>
                 
-                    <form method="POST" class="form-group" action="/task_status">
+                    <form method="POST" class="form-group" action="{% url 'task_status' task.id %}">
                         {% csrf_token %}
-                        <select name="user">
+                        <select name="status">
                             <option value="">Task Status</option>
                             <option value="0">In Progress</option> 
-                            <option value="0">Completed</option> 
+                            <option value="1">Completed</option> 
                         </select> <br>
                         <button type="submit">Submit</button> 
                     </form>

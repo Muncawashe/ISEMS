@@ -3,6 +3,9 @@ installed modules django-import_export for exporting and importing database info
 python manage.py runserver
 
 Run python manage.py createsuperuser to create an admin account.
+Default accounts:
+username admin password 123
+username blackhat password 123
 admin can add employees to the system and the default password for employees is 123.
 admin and employees can log into the system as per their roles.
 admin can assign tasks to employee.

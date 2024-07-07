@@ -90,7 +90,7 @@ def view_profile(request,user_id):
             # queryset2 = User.objects.all()
             sessions = Session.objects.filter(user=request.user)
             total_hours_worked = queryset.last_login - queryset.date_joined
-            queryset1 = Task.objects.filter( assigned_to_id = queryset )
+            queryset1 = Task.objects.filter( assigned_to_id = queryset , approved = True)
 
             context = {"employee":queryset, 'total_hours_worked': total_hours_worked, "tasks": queryset1}
             return render(request, "emp_profile.html",context)
@@ -272,12 +272,12 @@ def assign_task(request):
     else:
         HttpResponse("invalid request")
 
-def update_field_with_values(field_name, new_value):
-    instance = Model.objects.get(id=1) 
-
-    field_value = getattr(instance, field_name)
-    values_list = field_value.split(',')
-    values_list.append(new_value)
-    field_value = ','.join(values_list)
-    setattr(instance, field_name, field_value)
-    instance.save()
+def task_status(request, task_id):
+    if request.method == "POST":
+        status = request.POST['status']
+        task = Task.objects.get(id = task_id)
+        task.approved = status
+        task.save()
+        return HttpResponse("Task Completed")  
+    else:
+        HttpResponse("invalid request")
