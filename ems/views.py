@@ -8,6 +8,11 @@ from io import TextIOWrapper
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 
+def leave(request):
+    user = request.user
+    mkup = user.leave.end - user.last_login
+    if mkup <= 1:
+        return render(request, "superuser.html")
 
 def index(request):
     if request.user.is_superuser == True:
@@ -85,15 +90,18 @@ def view_profile(request,user_id):
             # queryset2 = User.objects.all()
             sessions = Session.objects.filter(user=request.user)
             total_hours_worked = queryset.last_login - queryset.date_joined
-            context = {"employee":queryset, 'total_hours_worked': total_hours_worked}
+            queryset1 = Task.objects.filter( assigned_to_id = queryset )
+
+            context = {"employee":queryset, 'total_hours_worked': total_hours_worked, "tasks": queryset1}
             return render(request, "emp_profile.html",context)
 
 def update_user(request,user_id):
     if request.method == "GET":
         if user_id:
+            queryset2 = User.objects.get(id = user_id)
             queryset = Role.objects.all()
             queryset1 = Department.objects.all()
-            context = {"roles":queryset, "depts":queryset1}
+            context = {"roles":queryset, "depts":queryset1, "user":queryset2}
             return render(request, "update_user.html",context)
 
     if request.method == "POST":
@@ -139,13 +147,12 @@ def bulk_upload(request):
                     'first_name' : row[0],
                     'last_name' : row[1],
                     'email' : row[2],
-                    'dept_id' : row[3],
-                    'role_id' : row[4],
                     'phone' : row[5], 
-                    'username' : row[6], 
-                    'password' : row[7], 
+                    'username' : row[6],  
                 }
-                employee = User.objects.create(**data)
+                password = 'pbkdf2_sha256$720000$KNUjOJgUNmz6Ius3UCvmAm$XebtSHuVf7ZY8VtStREAzAFPDU/uJXUfYzI5aEAZUlU='
+
+                employee = User.objects.create(**data, password = password)
                 employee.save()
             return HttpResponse("Bulk add via CSV Successfully")
         else:
@@ -172,24 +179,6 @@ def filter_user(request):
         return render(request, "search_user.html" )
     else:
         return HttpResponse("An exception occured")
-
-# @login_required
-# def calculate_hours_worked(request):
-#     sessions = Session.objects.filter(user=request.user)
-
-#     total_hours_worked = 0
-
-#     for session in sessions:
-#         login_time = session.login_time
-#         logout_time = session.logout_time
-
-#         duration = logout_time - login_time
-
-#         hours_worked = duration.total_seconds() / 3600 
-
-#         total_hours_worked += hours_worked
-
-#     return render(request, 'emp_profile', {'total_hours_worked': total_hours_worked})
 
 def view_task(request):
     queryset = Task.objects.filter( assigned_to_id = request.user )
@@ -236,11 +225,11 @@ def approve_leave_id(request, leave_id):
 
         user_id =  leave_obj.user_id
         user = User.objects.get(id=user_id)
-        
-        msg = "Leave Approved!"
+        numofdays = leave_obj.end - leave_obj.start
+        x = str(numofdays)
+        msg = "Leave Approved! Number of days taken is: " + x
         Message.objects.create(msg = msg, sent_to = user)
-        
-
+    
         queryset = Leave.objects.filter(approved = False)
         context = {"applications": queryset}
         return render(request, "leave_applications.html", context)

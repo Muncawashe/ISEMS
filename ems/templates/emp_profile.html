@@ -35,7 +35,12 @@ Employee Profile
             <h2>Total Hours Worked: {{ total_hours_worked }}</h2>
         </div>
         <div class="cardlinks">
-            <h2>Total Hours Worked: {{ total_hours_worked }}</h2>
+            <h2>Tasks Worked On: </h2> {%for task in tasks %}
+                <div class="card">
+                    <h2>{{ task.title}}<h2>
+                    <h4>{{ task.description}}<h4>
+                </div>
+                {% endfor %}
         </div>
     </div>
 </div>
