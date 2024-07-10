@@ -55,6 +55,7 @@
         padding: 20px;
         background-color: #333;
         border: 1px sold #ddd;
+        border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
     }
@@ -177,6 +178,27 @@
         text-align: center;
         margin: auto;
     }
+    .hamburger-menu{
+		position: absolute; 
+		top: 4; 
+		right: 0;
+		color: white;
+		margin: 10px
+	}
+	
+	idenav.collapsed {
+        width: 60px; /* Width of the collapsed sidebar */
+    }
+
+    /* Add styles for the sidebar contents when collapsed */
+    .sidenav.collapsed .menu-items {
+        display: none; /* Hide the menu items */
+    }
+
+    /* Add styles for the sidebar icons when collapsed */
+    .sidenav.collapsed .icon {
+        display: block; /* Show the icons */
+    }
 
     </style>
 
@@ -185,26 +207,31 @@
 
 <body>
 
-<div class="sidenav">
-    <h1 class="headi">Imaging Solutions</h1>
-    {% if request.user.is_authenticated %}
-    <h3 class="headi2">Welcome! {{ request.user.username }} <a href="{% url 'logout' %}">Logout</a></h3>
-    
-    {% endif %}
-    <hr class="">
-    <a href="/">Home</a>
-    {% if request.user.is_authenticated %}
-    <a class="nav-menu" href="{% url 'view_task' %}" role="button">Tasks</a>
-    <a class="nav-menu" href="{% url 'view_schedule' %}" role="button">Leave Schedule</a>
-    <a class="nav-menu" href="{% url 'apply_leave' %}" role="button">Leave Application</a>
-    <a class="nav-menu" href="{% url 'messages' %}" role="button">Messages</a>
-    {% else %}
-    <a href="{% url 'login' %}">Login</a>
-    {% endif %}
+<div class="sidenav" id="mySidebar">
+    <div class="hamburger-menu" onclick="toggleSidebar()">&#9776;</div>
+    <div class="menu-items" >
+        <h1 class="headi">Imaging Solutions</h1>
+        {% if request.user.is_authenticated %}
+        <h3 class="headi2">Welcome! {{ request.user.username }} </h3>
+        
+        {% endif %}
+        <hr class="">
+        <a href="/">Home</a>
+        {% if request.user.is_authenticated %}
+        <a class="nav-menu" href="{% url 'view_task' %}" role="button">Tasks</a>
+        <a class="nav-menu" href="{% url 'view_schedule' %}" role="button">Leave Schedule</a>
+        <a class="nav-menu" href="{% url 'apply_leave' %}" role="button">Leave Application</a>
+        <a class="nav-menu" href="{% url 'sms' %}" role="button">Messages</a>
+        <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </div>
+</div>
 </div>
 
 <!-- Page content -->
-<div class="main">
+<div class="main" id="mainContent">
     <div class="">
         <div class="">
             <h2 class="">TINOTENDA CHIVHERA R223817U COMPUTER SCIENCE, UZ</h2>
@@ -214,6 +241,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    function toggleSidebar() {
+        var sidebar = document.getElementById("mySidebar");
+        var mainContent = document.getElementById("mainContent");
+        if (sidebar.classList.contains("collapsed")) {
+            sidebar.classList.remove("collapsed");
+            sidebar.style.width = "320px";
+            mainContent.style.marginLeft = "320px";
+        } else {
+            sidebar.classList.add("collapsed");
+            sidebar.style.width = "60px";
+            mainContent.style.marginLeft = "60px";
+        }
+    }
+</script>
 
 </body>
 </html>

@@ -1,6 +1,7 @@
 from django.urls import path, include
 from . import views
 from schedule.views import CalendarView
+from .views import employee_report_view
 
 urlpatterns = [
 
@@ -24,6 +25,9 @@ urlpatterns = [
     path('approve_leave_id/<int:leave_id>',views.approve_leave_id , name = 'approve_leave_id'),
     path('assign_task_id/<int:user_id>',views.assign_task_id , name = 'assign_task_id'),
     path('assign_task',views.assign_task , name = 'assign_task'),
-    path('messages',views.messages , name = 'messages'),
+    path('sms',views.sms , name = 'sms'),
     path('task_status/<int:task_id>',views.task_status , name = 'task_status'),
+    path('task_perfomance/<int:task_id>',views.task_perfomance , name = 'task_perfomance'),
+
+    path('employee_report/<int:user_id>/', employee_report_view, name='employee_report'),
 ]

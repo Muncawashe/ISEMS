@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from .forms import LoginForm
 from django.contrib.auth import authenticate, login, logout
@@ -10,6 +11,9 @@ from datetime import date, timedelta
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.db.models import Avg
+from django.http import FileResponse
+from .reports import generate_employee_report
 
 def index(request):
     if request.user.is_superuser == True:
@@ -74,9 +78,17 @@ def add_user(request):
         password = 'pbkdf2_sha256$720000$KNUjOJgUNmz6Ius3UCvmAm$XebtSHuVf7ZY8VtStREAzAFPDU/uJXUfYzI5aEAZUlU='
         username = request.POST.get('username')
 
-        User.objects.create(first_name = f_name, last_name = l_name, phone = phone, email = email, password = password, username = username, is_staff = True)
-        # User.objects.create(first_name = f_name, last_name = l_name, dept_id = dept, role_id = role, phone = phone, email = email, password = password, username = username, is_staff = True)
-        return HttpResponse("User added successfully")
+        dept = Department.objects.get(id=dept_id)
+        role = Role.objects.get(id=role_id)
+
+        user = User.objects.create(first_name = f_name, last_name = l_name, phone = phone, email = email, password = password, username = username, is_staff = True)
+        user.dept = dept
+        user.role = role
+        user.save()
+        
+        messages.success(request, 'User added successfully')
+        return redirect('all_user')
+        
     
     elif request.method == "GET":
         return render(request, "add_user.html", context)
@@ -99,14 +111,20 @@ def view_profile(request,user_id):
 
     if request.method == "GET":
         if user_id:
-            queryset = User.objects.get(id = user_id)
-            # queryset2 = User.objects.all()
-            sessions = Session.objects.filter(user=request.user)
-            total_hours_worked = queryset.last_login - queryset.date_joined
-            queryset1 = Task.objects.filter( assigned_to_id = queryset , approved = True)
+            try:
+                queryset = User.objects.get(id = user_id)
+                # queryset2 = User.objects.all()
+                sessions = Session.objects.filter(user=request.user)
+                total_hours_worked = queryset.last_login - queryset.date_joined
+                queryset1 = Task.objects.filter( assigned_to_id = queryset , approved = True)
 
-            context = {"employee":queryset, 'total_hours_worked': total_hours_worked, "tasks": queryset1}
-            return render(request, "emp_profile.html",context)
+                avg_pef = Task.objects.filter(assigned_to_id=queryset).aggregate(Avg('perfomance'))['perfomance__avg']
+
+                context = {"avg_pef":avg_pef, "employee":queryset, 'total_hours_worked': total_hours_worked, "tasks": queryset1}
+                return render(request, "emp_profile.html",context)
+            except:
+                return HttpResponse("User Profile Not Yet Set Up!")
+
 
 def update_user(request,user_id):
     if request.method == "GET":
@@ -167,7 +185,8 @@ def bulk_upload(request):
 
                 employee = User.objects.create(**data, password = password)
                 employee.save()
-            return HttpResponse("Bulk add via CSV Successfully")
+            messages.success(request, 'Bulk add via CSV Successfully')
+            return redirect('all_user')
         else:
             return HttpResponse("please enter valid data")
     return render(request, 'bulk_upload.html')
@@ -194,11 +213,21 @@ def filter_user(request):
         return HttpResponse("An exception occured")
 
 def view_task(request):
-    queryset = Task.objects.filter( assigned_to_id = request.user )
+    queryset = Task.objects.filter( approved = False, assigned_to_id = request.user )
     context = {"tasks": queryset}
     return render(request, "tasks.html", context)
 
-def messages(request):
+def task_perfomance(request, task_id):
+    if request.method == "POST":
+        perfomance = request.POST['perfomance']
+        task = Task.objects.get(id = task_id)
+        task.perfomance = perfomance
+        task.save()
+        return HttpResponse("Task Perfomance Rated!")  
+    else:
+        HttpResponse("invalid request")
+
+def sms(request):
     queryset = Message.objects.filter(sent_to = request.user).order_by('-id')
     context = {"messages": queryset}
     return render(request, "sms.html", context)
@@ -294,3 +323,7 @@ def task_status(request, task_id):
         return HttpResponse("Task Status Updated!")  
     else:
         HttpResponse("invalid request")
+
+def employee_report_view(request, user_id):
+    buffer = generate_employee_report(user_id)
+    return FileResponse(buffer, as_attachment=True, filename='employee_report.pdf')
