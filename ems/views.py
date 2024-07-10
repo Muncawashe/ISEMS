@@ -5,19 +5,32 @@ from .models import Department, Role, User, Session, Leave, Task, Message
 from django.db.models import Q
 import csv
 from io import TextIOWrapper
-from datetime import datetime
 from django.contrib.auth.decorators import login_required
-
-def leave(request):
-    user = request.user
-    mkup = user.leave.end - user.last_login
-    if mkup <= 1:
-        return render(request, "superuser.html")
+from datetime import date, timedelta
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 def index(request):
     if request.user.is_superuser == True:
         return render(request, "superuser.html")
     elif request.user.is_staff==True:
+        approaching_leaves = Leave.objects.filter(approved = True, start__gte=date.today(), start__lte=date.today() + timedelta(days=7))
+        for leave in approaching_leaves:
+            user_id =  leave.user_id
+            user = User.objects.get(id=user_id)
+            var = leave.start
+            x = str(var)
+            msg = "Your Leave is Approaching! Your leave will start on: " + x
+            Message.objects.create(msg = msg, sent_to = user)
+        ending_leaves = Leave.objects.filter(approved = True, end__gte=date.today(), end__lte=date.today() + timedelta(days=7))
+        for leave in ending_leaves:
+            user_id =  leave.user_id
+            user = User.objects.get(id=user_id)
+            var = leave.end
+            x = str(var)
+            msg = "Your Leave is about to End! Your leave will end on: " + x
+            Message.objects.create(msg = msg, sent_to = user)
         return render(request, "staff.html")
     else:
         return render(request, "staff.html")
@@ -186,12 +199,12 @@ def view_task(request):
     return render(request, "tasks.html", context)
 
 def messages(request):
-    queryset = Message.objects.filter(sent_to = request.user)
+    queryset = Message.objects.filter(sent_to = request.user).order_by('-id')
     context = {"messages": queryset}
     return render(request, "sms.html", context)
 
 def view_schedule(request):
-    queryset = Leave.objects.all()
+    queryset = Leave.objects.filter(approved=True).order_by('start')
     context = {"schedules": queryset}
     return render(request, "schedules.html", context)
 
@@ -278,6 +291,6 @@ def task_status(request, task_id):
         task = Task.objects.get(id = task_id)
         task.approved = status
         task.save()
-        return HttpResponse("Task Completed")  
+        return HttpResponse("Task Status Updated!")  
     else:
         HttpResponse("invalid request")
