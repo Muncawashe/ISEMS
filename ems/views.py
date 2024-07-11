@@ -228,7 +228,7 @@ def task_perfomance(request, task_id):
         task.perfomance = perfomance
         task.save()
         messages.success(request, 'Task Performance Recorded!')
-        return redirect('emp_profile') 
+        return redirect('all_user') 
     else:
         HttpResponse("invalid request")
 
