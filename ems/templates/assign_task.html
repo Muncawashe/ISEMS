@@ -1,31 +1,42 @@
-{% extends 'super_base.html' %}
-{% block title %}
-Assign Task
-{% endblock %}
+{% extends 'super_base.html' %} 
+{% block title %} Assign Task {% endblock %} 
 
 {% block content %}
-    <div class="container-fluid">
-        <h1 class="center-text">Assign Task to {{employee.last_name}}</h1>
-        <hr>
-        <form method="POST" class="form-group" action="/assign_task">
-            {% csrf_token %}
-            <select name="user">
-                <option value="">Assign To</option>
-                    {% for user in users %}
-                <option value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option> 
-                    {% endfor %} 
-            </select> <br>
+<div class="container-fluid">
+    <h1 class="center-text">Assign Task to {{employee.last_name}}</h1>
+    <hr />
+    <form method="POST" class="form-group" action="/assign_task">
+    {% csrf_token %}
+    <select name="user">
+        <option value="">Assign To</option>
+        {% for user in users %}
+        <option value="{{user.id}}">
+        {{user.first_name}} {{user.last_name}}
+        </option>
+        {% endfor %}
+    </select>
+    <br />
 
-            <label for="name" >Title</label><br>
-            <input type="text" id="name" name="name" value="{{name}}" ><br>
+    <label for="name">Title</label><br />
+    <input type="text" id="name" name="name" value="{{name}}" /><br />
 
-            <label for="description" >Description</label><br>
-            <input type="text" id="description" name="description" value="{{description}}" ><br>
+    <label for="description">Description</label><br />
+    <input type="text" id="description" name="description" value="{{description}}"/>
+    <br />
 
-            <label for="end" >Due Date</label><br>
-            <input type="date" id="end" name="end" value="{{end}}">
+    <label for="end">Due Date</label><br />
+    <input type="date" id="end" name="end" value="{{end}}" />
 
-            <button type="submit">Submit</button> 
-        </form>
-    </div>
+    <button type="submit">Submit</button>
+    </form>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    {% if messages %}
+        {% for message in messages %}
+        alert("{{ message }}");
+        {% endfor %}
+    {% endif %}
+    });
+</script>
 {% endblock %}

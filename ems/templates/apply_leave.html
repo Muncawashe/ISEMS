@@ -22,4 +22,13 @@ Create Schedule event
             <button type="submit">Submit</button> 
         </form>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          {% if messages %}
+            {% for message in messages %}
+              alert("{{ message }}");
+            {% endfor %}
+          {% endif %}
+        });
+      </script>
 {% endblock %}

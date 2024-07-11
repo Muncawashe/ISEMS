@@ -90,7 +90,7 @@ def add_user(request):
         user.save()
         
         messages.success(request, 'User added successfully')
-        return redirect('all_user')
+        return redirect('add_user')
         
     
     elif request.method == "GET":
@@ -162,6 +162,7 @@ def update_user(request,user_id):
 
             queryset = User.objects.all()
             context = {"employees":queryset}
+            messages.success(request, 'User Information Updated!')
             return render(request, "all_user.html", context)
         except:
             return HttpResponse("please enter valid data")
@@ -188,7 +189,7 @@ def bulk_upload(request):
 
                 employee = User.objects.create(**data, password = password)
                 employee.save()
-            messages.success(request, 'Bulk add via CSV Successfully')
+            messages.success(request, 'Bulk add via CSV Successfull')
             return redirect('all_user')
         else:
             return HttpResponse("please enter valid data")
@@ -226,7 +227,8 @@ def task_perfomance(request, task_id):
         task = Task.objects.get(id = task_id)
         task.perfomance = perfomance
         task.save()
-        return HttpResponse("Task Perfomance Rated!")  
+        messages.success(request, 'Task Performance Recorded!')
+        return redirect('emp_profile') 
     else:
         HttpResponse("invalid request")
 
@@ -251,7 +253,8 @@ def apply_leave(request):
         reason = request.POST.get('reason')
 
         Leave.objects.create(user = user, start=start_date, end=end_date, reason=reason)
-        return HttpResponse("Application Sucessful")
+        messages.success(request, 'Leave Application Successful!')
+        return redirect('apply_leave')
 
     else:
         HttpResponse("invalid request")
@@ -313,7 +316,8 @@ def assign_task(request):
         user = User.objects.get(id = user_id)
 
         Task.objects.create(assigned_to = user, title = name, end = end, description = description)
-        return HttpResponse("Task Assigned successfully")  
+        messages.success(request, 'Task Assigned!')
+        return redirect('assign_task') 
     else:
         HttpResponse("invalid request")
 
@@ -323,7 +327,8 @@ def task_status(request, task_id):
         task = Task.objects.get(id = task_id)
         task.approved = status
         task.save()
-        return HttpResponse("Task Status Updated!")  
+        messages.success(request, 'Task Status Updated!')
+        return redirect('view_task')
     else:
         HttpResponse("invalid request")
 

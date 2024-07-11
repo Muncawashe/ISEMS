@@ -7,6 +7,7 @@ Add New Employee
   <div class="container-fluid">
     <h1 class="center-text">Add an Employee</h1>
       <hr>
+
       <form action="/add_user" class="form-group" method="post">
           {% csrf_token %}
             <label for="first_name" >First Name</label><br>
@@ -41,4 +42,15 @@ Add New Employee
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      {% if messages %}
+        {% for message in messages %}
+          alert("{{ message }}");
+        {% endfor %}
+      {% endif %}
+    });
+  </script>
+
 {% endblock %}

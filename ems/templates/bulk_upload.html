@@ -13,4 +13,13 @@ Add Employees
             <button type="submit">Upload</button>
         </form>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          {% if messages %}
+            {% for message in messages %}
+              alert("{{ message }}");
+            {% endfor %}
+          {% endif %}
+        });
+      </script>
 {% endblock %}
