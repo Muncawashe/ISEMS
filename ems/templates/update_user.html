@@ -5,7 +5,7 @@ Update Employee
 
 {% block content %}
   <div class="container-fluid">
-      <h1>Update Employee Details</h1>
+    <h1 class="center-text">Update Employee Details</h1>
       <hr>
       <form action="{% url 'update_user' user.id %}" class="form-group" method="post">
           {% csrf_token %}

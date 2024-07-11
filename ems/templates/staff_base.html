@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -199,6 +201,25 @@
     .sidenav.collapsed .icon {
         display: block; /* Show the icons */
     }
+    .list-group-item {
+        padding: 10px 15px;
+        border: 1px solid #dee2e6;
+        margin-bottom: 5px;
+        color: #495057;
+        border-radius: 10px;
+    }
+    
+    .list-group-item a {
+        text-decoration: none;
+        color: #007bff; /* Blue link color */
+    }
+    
+    .list-group-item a:hover {
+        text-decoration: underline;
+    }
+    .center-text {
+        text-align: center;
+    }
 
     </style>
 
@@ -211,6 +232,7 @@
     <div class="hamburger-menu" onclick="toggleSidebar()">&#9776;</div>
     <div class="menu-items" >
         <h1 class="headi">Imaging Solutions</h1>
+        <img src="{% static 'image001.png' %}" alt="Logo">
         {% if request.user.is_authenticated %}
         <h3 class="headi2">Welcome! {{ request.user.username }} </h3>
         
@@ -234,7 +256,7 @@
 <div class="main" id="mainContent">
     <div class="">
         <div class="">
-            <h2 class="">TINOTENDA CHIVHERA R223817U COMPUTER SCIENCE, UZ</h2>
+            <h2 class="center-text">TINOTENDA CHIVHERA R223817U COMPUTER SCIENCE, UZ</h2>
             <hr class="">
             {% block content %}
             {% endblock %}

@@ -1,15 +1,41 @@
-{% extends 'staff_base.html' %} 
-{% block title %} 
-Home 
-{% endblock %} 
+{% extends 'staff_base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
 {% block content %}
 <div class="container">
-  <h2>
-    {% if request.user.is_authenticated %}
-    <h1>Welcome to Imaging Solutions Staff Portal </h1>
-    {% else %}
-    <h1>Welcome to Imaging Solutions, Login to Start your Work</h1>
-    {% endif %}
-  </h2>
+    <h1 class="center-text">
+        {% if request.user.is_authenticated %}
+        Welcome to Imaging Solutions Staff Portal
+        {% else %}
+        Welcome to Imaging Solutions, Login to Start your Work
+        {% endif %}
+    </h1>
+
+  <div class="card">
+      <h3 class="card-title">Upcoming Company Events</h3>
+      <ul class="list-group" id="upcoming-events">
+          <!-- Load upcoming events dynamically -->
+          {% for event in upcoming_events %}
+          <h4 class="list-group-item">{{ event }}</h4>
+          {% empty %}
+          <li class="list-group-item">No upcoming events.</li>
+          {% endfor %}
+      </ul>
+    </div>
+
+
+  <div class="card">
+    <h3 class="card-title">Quick Links</h3>
+    <ul class="list-group">
+        <li class="list-group-item"><a href="https://github.com/Muncawashe">GitHub</a></li>
+        <li class="list-group-item"><a href="https://www.linkedin.com/in/tinotenda-chivhera-50ba84243/">LinkedIn</a></li>
+        <li class="list-group-item"><a href="">Leet Code</a></li>
+    </ul>
+  </div>
 </div>
+
+
 {% endblock %}

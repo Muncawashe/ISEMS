@@ -17,7 +17,10 @@ from .reports import generate_employee_report
 
 def index(request):
     if request.user.is_superuser == True:
-        return render(request, "superuser.html")
+        total_users = User.objects.count()
+        active_tasks = Task.objects.filter(approved=False).count()
+        context = {'total_users': total_users,'active_tasks': active_tasks}
+        return render(request, "superuser.html", context)
     elif request.user.is_staff==True:
         approaching_leaves = Leave.objects.filter(approved = True, start__gte=date.today(), start__lte=date.today() + timedelta(days=7))
         for leave in approaching_leaves:

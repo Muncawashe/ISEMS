@@ -1,4 +1,5 @@
 {% extends 'super_base.html' %}
+
 {% block title %}
 Employee Profile
 {% endblock %}
@@ -18,46 +19,47 @@ Employee Profile
         </thead>
         <tbody>
             <tr>
-                <td><h3>{{employee.id}}</h3></td>
-                <td><h3>{{employee.first_name}}</h3></td>
-                <td><h3>{{employee.last_name}}</h3></td>
-                <td><h3>{{employee.phone}}</h3></td>
-                <td><h3>{{employee.dept.name}}</h3></td>
-                <td><h3>{{employee.role.name}}</h3></td>
+                <td><h3>{{ employee.id }}</h3></td>
+                <td><h3>{{ employee.first_name }}</h3></td>
+                <td><h3>{{ employee.last_name }}</h3></td>
+                <td><h3>{{ employee.phone }}</h3></td>
+                <td><h3>{{ employee.dept.name }}</h3></td>
+                <td><h3>{{ employee.role.name }}</h3></td>
             </tr>
         </tbody>
     </table>
 </div>
 
-<div class="">
-    <div class="">
-        <div class="cardlinks">
-            <a href="{% url 'employee_report' employee.id %}" style="background-color: green; color: white; padding: 10px; text-decoration: none; display: inline-block; border-radius: 5px;">Download Performance Report</a>
+<div class="cardlinks">
+    <a href="{% url 'employee_report' employee.id %}" style="background-color: green; color: white; padding: 10px; text-decoration: none; display: inline-block; border-radius: 5px;">Download Performance Report</a>
+</div>
+
+<div class="cardlinks">
+    <h2>Total Hours Worked: {{ total_hours_worked }}</h2>
+</div>
+
+<div class="cardlinks">
+    <h2>Average Performance: {{ avg_pef }}</h2>
+</div>
+
+<div class="cardlinks">
+    <h2>Tasks Worked On:</h2>
+    {% for task in tasks %}
+    <div class="cardx">
+        <div class="left">
+            <h1>{{ task.title }}</h1>
+            <h2>{{ task.description }}</h2>
         </div>
-        <div class="cardlinks">
-            <h2>Total Hours Worked: {{ total_hours_worked }}</h2>
-        </div>
-        <div class="cardlinks">
-            <h2>Average Perfomance: {{ avg_pef }}</h2>
-        </div>
-        <div class="cardlinks">
-            <h2>Tasks Worked On: </h2> {%for task in tasks %}
-                <div class="cardx">
-                    <div class="left">
-                        <h1>{{ task.title}}<h1>
-                        <h2>{{ task.description}}<h2>
-                    </div>
-                    <div class="right">
-                            <form method="POST" class="form-group" action="{% url 'task_perfomance' task.id %}">
-                                {% csrf_token %}
-                                <label for="perfomance" >Perfomance /100</label><br>
-                                <input type="text" id="perfomance"  name="perfomance" value="{{task.perfomance}}"><br>
-                                <button type="submit">Submit</button> 
-                            </form>
-                    </div>
-                </div>
-                {% endfor %}
+        <div class="right">
+            <form method="POST" class="form-group" action="{% url 'task_perfomance' task.id %}">
+                {% csrf_token %}
+                <label for="perfomance">Performance / 100</label><br>
+                <input type="text" id="perfomance" name="perfomance" value="{{ task.perfomance }}"><br>
+                <button type="submit">Submit</button>
+            </form>
         </div>
     </div>
+    {% endfor %}
 </div>
+
 {% endblock %}

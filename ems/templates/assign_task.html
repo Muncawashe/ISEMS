@@ -5,7 +5,7 @@ Assign Task
 
 {% block content %}
     <div class="container-fluid">
-        <h1>Assign Task to {{employee.last_name}}</h1>
+        <h1 class="center-text">Assign Task to {{employee.last_name}}</h1>
         <hr>
         <form method="POST" class="form-group" action="/assign_task">
             {% csrf_token %}

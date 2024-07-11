@@ -1,16 +1,67 @@
-{% extends 'super_base.html' %} 
-{% block title %} 
-Home 
-{% endblock %} 
+{% extends 'super_base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
 {% block content %}
 <div class="container">
-  <h2>
+  <h1 class="center-text">
     {% if request.user.is_authenticated %}
-    <h1>Welcome to Imaging Solutions Admin Portal</h1>
+    Welcome to Imaging Solutions Admin Portal
     {% else %}
-    <h1>Welcome to Imaging Solutions, Login to Start your Work</h1>
+    Welcome to Imaging Solutions, Login to Start your Work
     {% endif %}
+  </h1>
+  
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Key Metrics</h3>
+                    <p class="card-text">Total Users: {{ total_users }}</p>
+                    <p class="card-text">Active Tasks: {{ active_tasks }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Recent Activities</h3>
+                    <ul class="list-group" id="recent-activities">
+                        <li class="list-group-item">Loading...</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  </h2>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Notifications</h3>
+                    <div class="alert alert-info" role="alert" id="notifications">
+                        Loading...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Simulate loading recent activities
+        setTimeout(function () {
+            document.getElementById('recent-activities').innerHTML = '<li class="list-group-item">Activity 1</li><li class="list-group-item">Activity 2</li><li class="list-group-item">Activity 3</li><li class="list-group-item">Activity 4</li><li class="list-group-item">Activity 5</li>';
+        }, 1000);
+
+        // Simulate loading notifications
+        setTimeout(function () {
+            document.getElementById('notifications').innerHTML = 'Example notification: Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+        }, 1500);
+    });
+</script>
+
 {% endblock %}
